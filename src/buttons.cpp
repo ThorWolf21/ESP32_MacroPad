@@ -37,6 +37,13 @@ void handleButtonPress(int buttonIndex, bool pressed) {
 
     int layer = getLayer();
 
+    // Example: Button 5 cycles to the next layer
+    if (buttonIndex == 4) { // Button 5 (index starts at 0)
+        int nextLayer = (layer + 1) % NUM_LAYERS;
+        setLayer(nextLayer);
+        return;
+    }
+
     if (layer == 0) {
         // Layer 1 actions
         if (buttonIndex == 0) {
