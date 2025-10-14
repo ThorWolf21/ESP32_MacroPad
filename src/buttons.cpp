@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <BleKeyboard.h>
 
-extern BleKeyboard bleKeyboard; // Use the instance from main.cpp
+extern BleKeyboard bleKeyboard;
 
 const int buttonPins[6] = {
     BUTTON_1_PIN,
@@ -16,76 +16,73 @@ const int buttonPins[6] = {
 };
 bool buttonStates[6] = {false, false, false, false, false, false};
 
+// Macro action function type
+typedef void (*MacroAction)();
+
+void macroNone() {}
+
+void macroNextLayer() {
+    int nextLayer = (getLayer() + 1) % NUM_LAYERS;
+    setLayer(nextLayer);
+}
+
+void macroVolumeDown() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.write(KEY_MEDIA_VOLUME_DOWN);
+    }
+}
+
+void macroVolumeUp() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.write(KEY_MEDIA_VOLUME_UP);
+    }
+}
+
+void macroMute() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.write(KEY_MEDIA_MUTE);
+    }
+}
+
+// Example: Add your own macros here
+void macroShortcut1() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('t');
+        bleKeyboard.releaseAll();
+    }
+}
+
+// Macro table: [layer][button]
+MacroAction macroTable[NUM_LAYERS][6] = {
+    // Layer 0
+    {macroShortcut1, macroNone, macroNone, macroNone, macroNextLayer, macroNone},
+    // Layer 1
+    {macroNone, macroNone, macroNone, macroNone, macroNextLayer, macroNone},
+    // Layer 2
+    {macroNone, macroVolumeUp, macroVolumeDown, macroMute, macroNextLayer, macroNone}
+};
+
 void initButtons() {
     for (int i = 0; i < 6; i++) {
-        pinMode(buttonPins[i], INPUT_PULLUP); // Set button pins as input with pull-up resistors
+        pinMode(buttonPins[i], INPUT_PULLUP);
     }
 }
 
 void readButtons() {
     for (int i = 0; i < 6; i++) {
-        bool currentState = digitalRead(buttonPins[i]) == LOW; // Read button state (active low)
-        if (currentState != buttonStates[i]) {
-            buttonStates[i] = currentState;
-            handleButtonPress(i, currentState); // Handle button press event
+        bool currentState = digitalRead(buttonPins[i]) == LOW;
+        if (currentState && !buttonStates[i]) {
+            // Button was just pressed
+            handleButtonPress(i, true);
         }
+        buttonStates[i] = currentState;
     }
 }
 
 void handleButtonPress(int buttonIndex, bool pressed) {
-    if (!pressed) return; // Only act on press, not release
-
+    if (!pressed) return;
     int layer = getLayer();
-
-    // Example: Button 5 cycles to the next layer
-    if (buttonIndex == 4) { // Button 5 (index starts at 0)
-        int nextLayer = (layer + 1) % NUM_LAYERS;
-        setLayer(nextLayer);
-        return;
-    }
-
-    if (layer == 0) {
-        // Layer 1 actions
-        if (buttonIndex == 0) {
-            // Do shortcut 1 for layer 1
-        } else if (buttonIndex == 1) {
-            // Do shortcut 2 for layer 1
-        }
-        // ...and so on for other buttons
-    } else if (layer == 1) {
-        // Layer 2 actions
-        if (buttonIndex == 0) {
-            // Do shortcut 1 for layer 2
-        }
-        // ...
-    } else if (layer == 2) {
-        // Layer 3 actions: Media volume control
-        if (buttonIndex == 2) {
-            // Media Volume Down
-            sendMediaVolumeDown();
-        } else if (buttonIndex == 1) {
-            // Media Volume Up
-            sendMediaVolumeUp();
-        }
-    }
-}
-
-void sendMediaVolumeDown() {
-    if (bleKeyboard.isConnected()) {
-        Serial.println("Sending Volume Down");
-        bleKeyboard.press(KEY_MEDIA_VOLUME_DOWN);
-        bleKeyboard.releaseAll();
-    } else {
-        Serial.println("BLE Keyboard not connected");
-    }
-}
-
-void sendMediaVolumeUp() {
-    if (bleKeyboard.isConnected()) {
-        Serial.println("Sending Volume Up");
-        bleKeyboard.press(KEY_MEDIA_VOLUME_UP);
-        bleKeyboard.releaseAll();
-    } else {
-        Serial.println("BLE Keyboard not connected");
-    }
+    if (buttonIndex < 0 || buttonIndex >= 6 || layer < 0 || layer >= NUM_LAYERS) return;
+    macroTable[layer][buttonIndex]();
 }
