@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <BleKeyboard.h>
 
+extern BleKeyboard bleKeyboard; // Use the instance from main.cpp
+
 const int buttonPins[6] = {
     BUTTON_1_PIN,
     BUTTON_2_PIN,
@@ -13,7 +15,6 @@ const int buttonPins[6] = {
     BUTTON_6_PIN
 };
 bool buttonStates[6] = {false, false, false, false, false, false};
-BleKeyboard bleKeyboard;
 
 void initButtons() {
     for (int i = 0; i < 6; i++) {

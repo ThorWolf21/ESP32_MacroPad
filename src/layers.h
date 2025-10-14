@@ -6,7 +6,9 @@
 
 // Function declarations
 void initLayers();
+void initLayerLEDs();
+void showLayer(int layer);
 void setLayer(int layer);
-int getCurrentLayer();
+int getLayer();
 
 #endif // LAYERS_H

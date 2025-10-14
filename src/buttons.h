@@ -8,5 +8,7 @@
 void initButtons();
 void readButtons();
 void handleButtonPress(int buttonIndex, bool pressed);
+void sendMediaVolumeDown();
+void sendMediaVolumeUp();
 
 #endif // BUTTONS_H
