@@ -60,7 +60,7 @@ void handleButtonPress(int buttonIndex, bool pressed) {
         // ...
     } else if (layer == 2) {
         // Layer 3 actions: Media volume control
-        if (buttonIndex == 0) {
+        if (buttonIndex == 2) {
             // Media Volume Down
             sendMediaVolumeDown();
         } else if (buttonIndex == 1) {
@@ -72,12 +72,20 @@ void handleButtonPress(int buttonIndex, bool pressed) {
 
 void sendMediaVolumeDown() {
     if (bleKeyboard.isConnected()) {
-        bleKeyboard.write(KEY_MEDIA_VOLUME_DOWN);
+        Serial.println("Sending Volume Down");
+        bleKeyboard.press(KEY_MEDIA_VOLUME_DOWN);
+        bleKeyboard.releaseAll();
+    } else {
+        Serial.println("BLE Keyboard not connected");
     }
 }
 
 void sendMediaVolumeUp() {
     if (bleKeyboard.isConnected()) {
-        bleKeyboard.write(KEY_MEDIA_VOLUME_UP);
+        Serial.println("Sending Volume Up");
+        bleKeyboard.press(KEY_MEDIA_VOLUME_UP);
+        bleKeyboard.releaseAll();
+    } else {
+        Serial.println("BLE Keyboard not connected");
     }
 }
