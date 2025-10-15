@@ -21,11 +21,30 @@ typedef void (*MacroAction)();
 
 void macroNone() {}
 
+// Layers
 void macroNextLayer() {
     int nextLayer = (getLayer() + 1) % NUM_LAYERS;
     setLayer(nextLayer);
 }
 
+// browser
+void macroSearchSelected() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('c');
+        bleKeyboard.releaseAll();
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('t');
+        bleKeyboard.releaseAll();
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('v'); 
+        bleKeyboard.releaseAll();
+        bleKeyboard.press(KEY_NUM_ENTER);
+        bleKeyboard.releaseAll();
+    }
+}
+
+// Media keys
 void macroVolumeDown() {
     if (bleKeyboard.isConnected()) {
         bleKeyboard.write(KEY_MEDIA_VOLUME_DOWN);
@@ -62,6 +81,7 @@ void macroMute() {
     }
 }
 
+// VS Code shortcuts
 void macroUndo() {
     if (bleKeyboard.isConnected()) {
         bleKeyboard.press(KEY_LEFT_CTRL);
@@ -107,7 +127,7 @@ MacroAction macroTable[NUM_LAYERS][6] = {
     // Layer 0
     {macroSaveVS, macroGoBackVS, macroGoForwardVS, macroUndo, macroRedo, macroNextLayer},
     // Layer 1
-    {macroNone, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
+    {macroSearchSelected, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 2
     {macroVolumeUp, macroPreviousTrack, macroPlayPause, macroNextTrack, macroVolumeDown, macroNextLayer}
 };
