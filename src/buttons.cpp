@@ -38,6 +38,24 @@ void macroVolumeUp() {
     }
 }
 
+void macroPlayPause() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.write(KEY_MEDIA_PLAY_PAUSE);
+    }
+}
+
+void macroNextTrack() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.write(KEY_MEDIA_NEXT_TRACK);
+    }
+}
+
+void macroPreviousTrack() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.write(KEY_MEDIA_PREVIOUS_TRACK);
+    }
+}
+
 void macroMute() {
     if (bleKeyboard.isConnected()) {
         bleKeyboard.write(KEY_MEDIA_MUTE);
@@ -91,7 +109,7 @@ MacroAction macroTable[NUM_LAYERS][6] = {
     // Layer 1
     {macroNone, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 2
-    {macroMute, macroVolumeUp, macroVolumeDown, macroMute, macroMute, macroNextLayer}
+    {macroVolumeUp, macroPreviousTrack, macroPlayPause, macroNextTrack, macroVolumeDown, macroNextLayer}
 };
 
 void initButtons() {
