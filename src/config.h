@@ -1,4 +1,4 @@
-#define BUTTON_1_PIN  2
+#define BUTTON_1_PIN  15
 #define BUTTON_2_PIN  4
 #define BUTTON_3_PIN  16
 #define BUTTON_4_PIN  17

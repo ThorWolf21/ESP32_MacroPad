@@ -53,14 +53,22 @@ void macroShortcut1() {
     }
 }
 
+void macroSave() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('s');
+        bleKeyboard.releaseAll();
+    }
+}
+
 // Macro table: [layer][button]
 MacroAction macroTable[NUM_LAYERS][6] = {
     // Layer 0
-    {macroShortcut1, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
+    {macroSave, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 1
     {macroNone, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 2
-    {macroNone, macroVolumeUp, macroVolumeDown, macroMute, macroNone, macroNextLayer}
+    {macroMute, macroVolumeUp, macroVolumeDown, macroMute, macroMute, macroNextLayer}
 };
 
 void initButtons() {
