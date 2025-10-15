@@ -44,16 +44,15 @@ void macroMute() {
     }
 }
 
-// Example: Add your own macros here
-void macroShortcut1() {
+void macroGoBackVS() {
     if (bleKeyboard.isConnected()) {
-        bleKeyboard.press(KEY_LEFT_CTRL);
-        bleKeyboard.press('t');
+        bleKeyboard.press(KEY_LEFT_ALT);
+        bleKeyboard.press(KEY_LEFT_ARROW);
         bleKeyboard.releaseAll();
     }
 }
 
-void macroSave() {
+void macroSaveVS() {
     if (bleKeyboard.isConnected()) {
         bleKeyboard.press(KEY_LEFT_CTRL);
         bleKeyboard.press('s');
@@ -64,7 +63,7 @@ void macroSave() {
 // Macro table: [layer][button]
 MacroAction macroTable[NUM_LAYERS][6] = {
     // Layer 0
-    {macroSave, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
+    {macroSaveVS, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 1
     {macroNone, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 2
