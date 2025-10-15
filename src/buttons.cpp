@@ -56,11 +56,11 @@ void macroShortcut1() {
 // Macro table: [layer][button]
 MacroAction macroTable[NUM_LAYERS][6] = {
     // Layer 0
-    {macroShortcut1, macroNone, macroNone, macroNone, macroNextLayer, macroNone},
+    {macroShortcut1, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 1
-    {macroNone, macroNone, macroNone, macroNone, macroNextLayer, macroNone},
+    {macroNone, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 2
-    {macroNone, macroVolumeUp, macroVolumeDown, macroMute, macroNextLayer, macroNone}
+    {macroNone, macroVolumeUp, macroVolumeDown, macroMute, macroNone, macroNextLayer}
 };
 
 void initButtons() {
