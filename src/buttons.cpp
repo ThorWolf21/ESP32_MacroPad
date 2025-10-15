@@ -44,10 +44,34 @@ void macroMute() {
     }
 }
 
+void macroUndo() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('z');
+        bleKeyboard.releaseAll();
+    }
+}
+
+void macroRedo() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.press(KEY_LEFT_CTRL);
+        bleKeyboard.press('y');
+        bleKeyboard.releaseAll();
+    }
+}
+
 void macroGoBackVS() {
     if (bleKeyboard.isConnected()) {
         bleKeyboard.press(KEY_LEFT_ALT);
         bleKeyboard.press(KEY_LEFT_ARROW);
+        bleKeyboard.releaseAll();
+    }
+}
+
+void macroGoForwardVS() {
+    if (bleKeyboard.isConnected()) {
+        bleKeyboard.press(KEY_LEFT_ALT);
+        bleKeyboard.press(KEY_RIGHT_ARROW);
         bleKeyboard.releaseAll();
     }
 }
@@ -63,7 +87,7 @@ void macroSaveVS() {
 // Macro table: [layer][button]
 MacroAction macroTable[NUM_LAYERS][6] = {
     // Layer 0
-    {macroSaveVS, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
+    {macroSaveVS, macroGoBackVS, macroGoForwardVS, macroUndo, macroRedo, macroNextLayer},
     // Layer 1
     {macroNone, macroNone, macroNone, macroNone, macroNone, macroNextLayer},
     // Layer 2
